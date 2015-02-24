@@ -1,0 +1,27 @@
+{
+    "name": "atk4/atk4-homepage",
+    "type": "library",
+    "version": "4.3.x",
+    "description": "AgileToolkit pseudo static site addon",
+    "keywords": ["addon","atk4"],
+    "authors": [
+        {
+            "name": "Vadym Radvansky"
+        },
+        {
+            "name": "Konstantin Kolodnitsky"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "atk4\/atk4":"4.3.*@dev"
+    },
+
+    "require-dev": {
+        "robmorgan/phinx": "*"
+    },
+
+    "autoload": {
+        "psr-0": {"atk4\\atk4homepage": "addons/atk4/atk4-homepage/lib/"}
+    }
+}

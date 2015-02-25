@@ -14,7 +14,8 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "atk4\/atk4":"4.3.*@dev"
+        "atk4\/atk4":"4.3.*@dev",
+        "nesbot/Carbon": "*"
     },
 
     "require-dev": {

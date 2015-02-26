@@ -18,7 +18,11 @@ class View_DynamicBlock extends View_AbstractConstructor {
         $form->getElement('content')->setCaption($this->model['system_name']);
         $form->addSubmit();
 
-        if($form->isSubmitted()) $form->save();
+        if($form->isSubmitted()) {
+            $form->save();
+
+            $form->js()->univ()->successMessage('Saved')->execute();
+        }
     }
 
     public function getForFrontend(){

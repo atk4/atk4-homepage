@@ -8,7 +8,7 @@ class Model_Page extends \SQL_Model {
 
     public $table = 'page';
     public $related_entities = [
-        ['Block', ['type'=>'hard', 'field'=>'page_id']],
+        ['atk4\atk4homepage\Model_Block', ['type'=>'hard', 'field'=>'page_id']],
     ];
 
     protected $available_types = [];
@@ -21,7 +21,7 @@ class Model_Page extends \SQL_Model {
         parent::init();
 
         //$this->debug();
-        $this->addField('name');
+        $this->addField('name')->required();
         $this->addField('type')->setValueList($this->getAvailableTypes());
         $this->addField('created_dts');
         $this->addField('hash_url');
@@ -38,7 +38,7 @@ class Model_Page extends \SQL_Model {
     function getAvailableTypes(){
         if(!count($this->available_types)){
             $this->available_types[''] = '<Group of pages>';
-            $pages = $this->app->getConfig('atk4-home-page/page_types');
+            $pages = $this->app->getConfig('atk4-home-page/page_types',[]);
             foreach($pages as $name=>$page){
                 $this->available_types[$name] = $page['descr'];
             }

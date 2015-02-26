@@ -30,8 +30,9 @@ trait Trait_SoftDelete {
         if(!isset($this->related_entities)) throw $this->exception('Related entities are not specified', 'NoRelatedEntities');
 
         foreach($this->related_entities as $related_entity){
+            $class_name = (strpos($related_entity[0],'Model_')===false)? 'Model_'.$related_entity[0]: $related_entity[0];
             $model_arr = $this
-                ->add('Model_'.$related_entity[0])
+                ->add($class_name)
                 ->addCondition($related_entity[1]['field'], $this->id)
                 ->deleted();
             foreach($model_arr as $record){
@@ -77,8 +78,9 @@ trait Trait_SoftDelete {
         //Delete related entities
         if(!isset($this->related_entities)) throw $this->exception('Related entities are not specified', 'NoRelatedEntities');
         foreach($this->related_entities as $related_entity){
+            $class_name = (strpos($related_entity[0],'Model_')===false)? 'Model_'.$related_entity[0]: $related_entity[0];
             $model_arr = $this
-                ->add('Model_'.$related_entity[0])
+                ->add($class_name)
                 ->addCondition($related_entity[1]['field'], $this->id)
                 ->deleted(false);
             foreach($model_arr as $record){
@@ -106,8 +108,9 @@ trait Trait_SoftDelete {
         //Delete related entities
         if(!isset($this->related_entities)) throw $this->exception('Related entities are not specified', 'NoRelatedEntities');
         foreach($this->related_entities as $related_entity){
+            $class_name = (strpos($related_entity[0],'Model_')===false)? 'Model_'.$related_entity[0]: $related_entity[0];
             $model = $this
-                ->add('Model_'.$related_entity[0])
+                ->add($class_name)
                 ->addCondition($related_entity[1]['field'], $this->id);
             foreach($model as $record){
                 if($related_entity[1]['type'] == 'soft'){

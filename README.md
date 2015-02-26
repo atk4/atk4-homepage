@@ -112,6 +112,22 @@ Ok, we've described blocks for page, but still don't have any block description.
         ],
     ],
 
+### Languages
+
+Add trait tk4\atk4homepage\Trait_LanguageSupport to your App class
+
+    <?php
+    class Admin extends App_Admin {
+        use atk4\atk4homepage\Trait_LanguageSupport;
+    }
+
+Set bunch of languages in config
+
+    'available_languages' => ['en'=>'en_EN','lv'=>'lv_LV','ru'=>'ru_RU'],
+
+Set default language in config
+
+    'default_language' => 'en',
 
 That's all.
 
@@ -133,6 +149,11 @@ Run
 Done!
 
 ## Admin
+
+
+The trait Trait_LanguageSupport adds translation support to your application. You can get current language using
+
+    $this->app->getCurrentLanguage();
 
 ### Page
 

@@ -14,7 +14,18 @@ class Page_ATK4HomePage extends \Page {
     function init() {
         parent::init();
         $this->namespace = __NAMESPACE__;
-        $this->app->jquery->addStaticInclude( str_replace(['\\','/'],'_',$this->namespace) . '/atk4HomePage' );
+
+
+
+        $public_location = $this->app->pathfinder->addLocation(array(
+            'js'=>array( 'packages/' . str_replace(['\\','/'],'_',$this->namespace) . '/js' ),
+            'css'=>array( 'packages/' . str_replace(['\\','/'],'_',$this->namespace) . '/css' ),
+        ))
+            ->setBasePath(getcwd().'/public')
+            ->setBaseURL($this->app->url('/'))
+        ;
+
+        $this->app->jquery->addStaticInclude( 'atk4HomePage' );
     }
 
     function page_index() {

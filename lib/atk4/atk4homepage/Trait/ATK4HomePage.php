@@ -26,8 +26,6 @@ trait Trait_ATK4HomePage {
      */
     public function pageNotFound($e){
 
-        var_dump($this->page);
-
         $page_model = $this->add('atk4\atk4homepage\Model_Page');
         $page_model->tryLoadBy('hash_url',$this->app->page);
         if(!$page_model->loaded())
@@ -42,20 +40,7 @@ trait Trait_ATK4HomePage {
             ],
             'Content'
         );
-
-
-        /*
-        $this->page_object = $layout->add(
-            'atk4\atk4homepage\Page_Dynamic',
-            [
-                'page'=>$this->app->page,
-                'template_path'=>$page_model->getTemplatePath(),
-            ],
-            'Content'
-        );
-        $this->page_object->setModel($page_model);
-        $this->page_object->get();
-        */
+        
     }
 
 

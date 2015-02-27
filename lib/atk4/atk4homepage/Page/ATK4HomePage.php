@@ -15,8 +15,6 @@ class Page_ATK4HomePage extends \Page {
         parent::init();
         $this->namespace = __NAMESPACE__;
 
-
-
         $public_location = $this->app->pathfinder->addLocation(array(
             'js'=>array( 'packages/' . str_replace(['\\','/'],'_',$this->namespace) . '/js' ),
             'css'=>array( 'packages/' . str_replace(['\\','/'],'_',$this->namespace) . '/css' ),

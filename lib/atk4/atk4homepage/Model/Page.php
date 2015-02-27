@@ -177,7 +177,7 @@ class Model_Page extends \SQL_Model {
     }
 
     public function getBlocks($as_array=false,$limit=false,$offset=0,$order=false,$desc=true) {
-        $bc = $this->add('Model_Block')->deleted($this['is_deleted'])->addCondition('page_id',$this->id);
+        $bc = $this->add('atk4/atk4homepage/Model_Block')->deleted($this['is_deleted'])->addCondition('page_id',$this->id);
         return $this->prepareRelated($bc,$as_array,$limit,$offset,$order,$desc);
     }
 }

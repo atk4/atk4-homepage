@@ -21,7 +21,7 @@ trait Trait_RelatedEntities {
      * @param bool $desc
      * @return array|SQL_Model
      */
-    function prepareRelated(SQL_Model $m, $as_array=false, $limit=false, $offset=0, $order=false, $desc=true) {
+    function prepareRelated(\SQL_Model $m, $as_array=false, $limit=false, $offset=0, $order=false, $desc=true) {
         if ($limit) {
             $m->setLimit($limit,$offset);
         }

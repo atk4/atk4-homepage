@@ -24,7 +24,7 @@ to change some texts in the future.
 
 ## Idea
 
-Every design can by cut to small peaces of HTML. In Agile Toolkit we can them "view".
+Every design can by cut to small peaces of HTML. In Agile Toolkit we call them "view".
 Usually they are located in "templates" folder of project.
 What if we cut HTML design to such a views, put them into project folder and just describe how to put these small pieces together somehow?
 

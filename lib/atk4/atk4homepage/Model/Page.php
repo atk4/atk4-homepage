@@ -8,7 +8,7 @@ class Model_Page extends \SQL_Model {
 
     public $table = 'page';
     public $related_entities = [
-        ['Block', ['type'=>'hard', 'field'=>'page_id']],
+        ['atk4\atk4homepage\Model_Block', ['type'=>'hard', 'field'=>'page_id']],
     ];
 
     protected $available_types = [];
@@ -21,7 +21,7 @@ class Model_Page extends \SQL_Model {
         parent::init();
 
         //$this->debug();
-        $this->addField('name');
+        $this->addField('name')->required();
         $this->addField('type')->setValueList($this->getAvailableTypes());
         $this->addField('created_dts');
         $this->addField('hash_url');
@@ -38,7 +38,7 @@ class Model_Page extends \SQL_Model {
     function getAvailableTypes(){
         if(!count($this->available_types)){
             $this->available_types[''] = '<Group of pages>';
-            $pages = $this->app->getConfig('atk4-home-page/page_types');
+            $pages = $this->app->getConfig('atk4-home-page/page_types',[]);
             foreach($pages as $name=>$page){
                 $this->available_types[$name] = $page['descr'];
             }
@@ -95,7 +95,7 @@ class Model_Page extends \SQL_Model {
 
     public function getForMenu() {
         $this->addExpression('url_first_child',function($m){
-            $f = $m->add('Model_Page',['table_alias'=>'p2'])->addCondition('page_id',$m->getElement('id'));
+            $f = $m->add('atk4\atk4homepage\Model_Page',['table_alias'=>'p2'])->addCondition('page_id',$m->getElement('id'));
             $f->setLimit(1);
             return $f->fieldQuery('hash_url');
         });
@@ -111,7 +111,7 @@ class Model_Page extends \SQL_Model {
     public function getSiblings() {
         if(!$this->loaded()) throw $this->exception(get_class($this).' MUST be loaded','atk4\atk4homepage\NotLoadedModel');
         if($this['page_id']) {
-            $p = $this->add('Model_Page');
+            $p = $this->add('atk4\atk4homepage\Model_Page');
             $p->addCondition('page_id',$this['page_id']);
             return $p;
         } else {
@@ -122,7 +122,7 @@ class Model_Page extends \SQL_Model {
     public function hasChildren() {
         if(!$this->loaded()) throw $this->exception(get_class($this).' MUST be loaded','atk4\atk4homepage\NotLoadedModel');
         if(!$this['type']) {
-            $p = $this->add('Model_Page');
+            $p = $this->add('atk4\atk4homepage\Model_Page');
             $p->addCondition('page_id',$this['id']);
             $p->addCondition('is_deleted','0');
             if(count($p->getRows())) return true;
@@ -177,7 +177,7 @@ class Model_Page extends \SQL_Model {
     }
 
     public function getBlocks($as_array=false,$limit=false,$offset=0,$order=false,$desc=true) {
-        $bc = $this->add('Model_Block')->deleted($this['is_deleted'])->addCondition('page_id',$this->id);
+        $bc = $this->add('atk4\atk4homepage\Model_Block')->deleted($this['is_deleted'])->addCondition('page_id',$this->id);
         return $this->prepareRelated($bc,$as_array,$limit,$offset,$order,$desc);
     }
 }

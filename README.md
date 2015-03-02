@@ -30,12 +30,12 @@ What if we cut HTML design to such a views, put them into project folder and jus
 
 ### Shared template
 
-First of all we need to put all common parts of design to shared.html.
+First of all we need to put all common parts of design to html.html.
 If you don't know how to do it you must read documentation of Agile Toolkit.
 
 ### Pages
 
-After creation of shared.html we can determine pages with different structures. Usually there are 4-6 structures.
+After creation of html.html we can determine pages with different structures. Usually there are 4-6 structures.
 Let's create page template file for each page structure and describe them in config.
 
     $config['atk4-home-page'] = [

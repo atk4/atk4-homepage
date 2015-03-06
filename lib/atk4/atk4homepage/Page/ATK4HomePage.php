@@ -20,7 +20,7 @@ class Page_ATK4HomePage extends \Page {
             'css'=>array( 'packages/' . str_replace(['\\','/'],'_',$this->namespace) . '/css' ),
         ))
             ->setBasePath(getcwd().'/public')
-            ->setBaseURL($this->app->url('/'))
+            ->setBaseURL($this->app->getBaseURL())
         ;
 
         $this->app->jquery->addStaticInclude( 'atk4HomePage' );

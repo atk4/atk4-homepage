@@ -40,7 +40,7 @@ trait Trait_ATK4HomePage {
             ],
             'Content'
         );
-        
+
     }
 
 

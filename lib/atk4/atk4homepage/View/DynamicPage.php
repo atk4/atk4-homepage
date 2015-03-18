@@ -27,6 +27,7 @@ class View_DynamicPage extends View_AbstractConstructor {
         if(!$this->necropolis) return;
         $blocks = $this->add('atk4\atk4homepage\Model_Block')
             ->addCondition('page_id',$this->model->id)
+            ->addCondition('is_deleted',false)
             ->addCondition('id','not in',$this->necropolis)
             ->addCondition('language',$this->app->getCurrentLanguage());
 

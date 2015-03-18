@@ -10,9 +10,10 @@ namespace atk4\atk4homepage;
 
 class Block_ATK4HomeBlock extends View_AbstractConstructor {
     public $template_path = 'htmlelement';
+    public $form_classes = 'stacked';
     public function getForAdmin(){
         $form = $this->add('Form');
-        $form->setClass('stacked');
+        $form->setClass($this->form_classes);
         $form->setModel($this->model,$this->field_list);
         $form->getElement('content')->setCaption($this->model['system_name']);
         $form->addSubmit();

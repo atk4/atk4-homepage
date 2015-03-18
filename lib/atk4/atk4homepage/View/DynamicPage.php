@@ -12,7 +12,7 @@ class View_DynamicPage extends View_AbstractConstructor {
 
     public     $template_path = 'page';
     private    $blocks;
-    protected  $necropolis = [];
+    protected  $living = [];
 
     function init(){
         parent::init();
@@ -24,12 +24,14 @@ class View_DynamicPage extends View_AbstractConstructor {
     }
 
     protected function addNecropolis(\AbstractView $v){
-        if(!$this->necropolis) return;
+        //if(!$this->living) return;
         $blocks = $this->add('atk4\atk4homepage\Model_Block')
             ->addCondition('page_id',$this->model->id)
             ->addCondition('is_deleted',false)
-            ->addCondition('id','not in',$this->necropolis)
+            //->addCondition('id','not in',$this->living)
             ->addCondition('language',$this->app->getCurrentLanguage());
+
+        if($this->living) $blocks->addCondition('id','not in',$this->living);
 
         $v->add('H2')->set('Necropolis');
         $crud = $v->add('CRUD',['allow_add'=>false]);
@@ -57,6 +59,7 @@ class View_DynamicPage extends View_AbstractConstructor {
      * @throws BaseException
      */
     private function addBlock($page_id, $sys_name, $type, $app_type, \AbstractView $v){
+
         $block = $this->add('atk4\atk4homepage\Model_Block')//->debug()
             ->addCondition('type',$type)
             ->addCondition('page_id',$page_id)
@@ -67,13 +70,15 @@ class View_DynamicPage extends View_AbstractConstructor {
         if(!$block->loaded()){
             $block->save();
         }
-        $this->necropolis[] = $block->id;
+        $this->living[] = $block->id;
 
         $view = $v->add('atk4\atk4homepage\View_DynamicBlock',['app_type'=>$app_type]);
         $view->setModel($block);
         $view->get();
+
     }
     protected function getForFrontend(){
+
         $blocks = $this->model->getBlocks()->withCurrentLanguage();
 
         $error_messages = [];
@@ -93,5 +98,6 @@ class View_DynamicPage extends View_AbstractConstructor {
         if(count($error_messages)){
             $this->js(true)->univ()->alert(implode("\n",$error_messages));
         }
+
     }
 }

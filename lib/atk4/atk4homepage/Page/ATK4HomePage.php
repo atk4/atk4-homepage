@@ -10,6 +10,8 @@ namespace atk4\atk4homepage;
 
 class Page_ATK4HomePage extends \Page {
 
+    protected $reorder_hint = 'Drug and drop lines above to reorder pages. Click "Save order" after to save changes on the server.';
+
 
     function init() {
         parent::init();
@@ -40,12 +42,14 @@ class Page_ATK4HomePage extends \Page {
             Model_Page::$show_in_grid
         );
         $this->addConfigureButton($c);
+        $this->addEditOnFrontendButton($c);
 
         $this->js(true)->atk4HomePage()->makeSortable($c->name,"tbody>tr");
 
         $this->add('Button')->addClass('atk-push')->set('Save order')->js('click')->atk4HomePage()->saveOrder(
             $c->name,"tbody>tr",'data-id',$this->app->url()
         );
+        $this->add('View')->set($this->reorder_hint)->addClass('atk-push');
 
     }
 
@@ -179,6 +183,7 @@ class Page_ATK4HomePage extends \Page {
             $v->add('Button')->addClass('atk-push')->set('Save order')->js('click')->atk4HomePage()->saveOrder(
                 $c->name,"tbody>tr",'data-id',$this->app->url()
             );
+            $v->add('View')->set($this->reorder_hint)->addClass('atk-push');
         } else {
             $v->add('View')
                 ->addClass('atk-box atk-effect-warning')
@@ -207,6 +212,10 @@ class Page_ATK4HomePage extends \Page {
         return (strpos($this->app->page,'_edit') !== false)? './': './edit';
     }
 
+    protected function getFrontendEditUrlString() {
+        return $this->app->getConfig('atk4-markdown/frontend_base_url');
+    }
+
 
 
 
@@ -223,7 +232,17 @@ class Page_ATK4HomePage extends \Page {
         }
     }
 
-    protected function updateOrder(\AbstractView $v, Model_Page $m) {
+    protected function addEditOnFrontendButton(\CRUD $c){
+        $b = $c->addButton('Frontend edit');
+		$b->js('click')->univ()->ajaxec($this->app->url(null,['frontend_edit'=>'true']));
+
+		if ($_GET['frontend_edit']=='true') {
+
+			$this->js()->univ()->errorMessage('not implemented yet')->execute();
+		}
+    }
+
+    protected function updateOrder(\AbstractView $view, Model_Page $m) {
 
         if ($_GET['action'] == 'refresh_order') {
             $ids = $_GET['ids'];

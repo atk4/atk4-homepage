@@ -104,7 +104,7 @@ class Model_Page extends \SQL_Model {
 
     public function getTop(){
         $this->addCondition('page_id',null);
-        $this->addCondition('is_deleted','0');
+        $this->deleted(false);
         return $this;
     }
 

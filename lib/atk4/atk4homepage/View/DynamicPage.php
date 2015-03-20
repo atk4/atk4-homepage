@@ -72,9 +72,7 @@ class View_DynamicPage extends View_AbstractConstructor {
         }
         $this->living[] = $block->id;
 
-        $view = $v->add('atk4\atk4homepage\View_DynamicBlock',['app_type'=>$app_type]);
-        $view->setModel($block);
-        $view->get();
+		$this->_getBlock( $block, $v, $app_type);
 
     }
     protected function getForFrontend(){
@@ -84,14 +82,9 @@ class View_DynamicPage extends View_AbstractConstructor {
         $error_messages = [];
 
         foreach($blocks as $block){
-
             if ($this->template->hasTag($block['system_name'])) {
-                $v = $this->add('atk4\atk4homepage\View_DynamicBlock',[
-                    'template_path'=>$this->app->getConfig('atk4-home-page/block_types/'.$block['type'].'/template')
-                ],$block['system_name']);
-                $v->setModel($block);
-                $v->get();
-            }else{
+				$this->_getBlock( $block, $this, 'frontend');
+            } else {
                 $error_messages[] = 'There is no tag '.$block['system_name'].' in template.';
             }
         }
@@ -100,4 +93,25 @@ class View_DynamicPage extends View_AbstractConstructor {
         }
 
     }
+
+	protected function _getBlock(Model_Block $model, \AbstractView $v, $app_type='frontend') {
+
+		if (Config::getInstance($this->app)->isFrontendEditingMode() && $_GET['edit']==1) {
+			$this->app->stickyGet('edit');
+			$this->app->stickyGet('access_code');
+			$app_type = 'admin';
+		}
+
+		if ($app_type == 'admin') {
+			$view = $v->add('atk4\atk4homepage\View_DynamicBlock',['app_type'=>$app_type]);
+		} else {
+			$view = $this->add('atk4\atk4homepage\View_DynamicBlock',[
+				'template_path'=>$this->app->getConfig('atk4-home-page/block_types/'.$model['type'].'/template')
+			],$model['system_name']);
+		}
+
+		$view->setModel($model);
+		$view->get();
+
+	}
 }

@@ -10,22 +10,12 @@ namespace atk4\atk4homepage;
 
 class Page_ATK4HomePage extends \Page {
 
-    protected $reorder_hint = 'Drug and drop lines above to reorder pages. Click "Save order" after to save changes on the server.';
+    protected $reorder_hint = 'Drag and drop lines above to reorder pages. Click "Save order" after to save changes on the server.';
 
 
     function init() {
         parent::init();
-        $this->namespace = __NAMESPACE__;
-
-        $public_location = $this->app->pathfinder->addLocation(array(
-            'js'=>array( 'packages/' . str_replace(['\\','/'],'_',$this->namespace) . '/js' ),
-            'css'=>array( 'packages/' . str_replace(['\\','/'],'_',$this->namespace) . '/css' ),
-        ))
-            ->setBasePath(getcwd().'/public')
-            ->setBaseURL($this->app->getBaseURL())
-        ;
-
-        $this->app->jquery->addStaticInclude( 'atk4HomePage' );
+		Initiator::getInstance()->addJs($this->app);
     }
 
     function page_index() {
@@ -233,13 +223,26 @@ class Page_ATK4HomePage extends \Page {
     }
 
     protected function addEditOnFrontendButton(\CRUD $c){
-        $b = $c->addButton('Frontend edit');
-		$b->js('click')->univ()->ajaxec($this->app->url(null,['frontend_edit'=>'true']));
+        if (isset($this->app->auth)) {
+            $b = $c->addButton('Frontend edit');
+            $b->js('click')->univ()->ajaxec($this->app->url(null,['frontend_edit'=>'true']));
 
-		if ($_GET['frontend_edit']=='true') {
-
-			$this->js()->univ()->errorMessage('not implemented yet')->execute();
-		}
+            if ($_GET['frontend_edit']=='true') {
+                if (!isset($this->app->auth)) {
+                    $this->js()->univ()->errorMessage('There is no Auth, you cannot use this functional.')->execute();
+                }
+                $session = $this->add('atk4\atk4homepage\Model_Session')
+                    ->generate($this->app->auth->model->id,Model_Session::TYPE_EDIT_ON_FRONTEND)
+                    ->setValidForHours(8)
+                    ->save()
+                ;
+                $this->js()->redirect(
+					$this->app->url($this->getFrontendEditUrlString(),[
+						Config::getInstance($this->app)->getFrontendGetParameterName() => $session->get('access_code')
+					])
+				)->execute();
+            }
+        }
     }
 
     protected function updateOrder(\AbstractView $view, Model_Page $m) {

@@ -12,6 +12,11 @@ class View_DynamicBlock extends View_AbstractConstructor {
 
     public $template_path = 'htmlelement';
 
+	function init() {
+		parent::init();
+		Initiator::getInstance()->addJs($this->app);
+	}
+
     public function getForAdmin(){
         $form = $this->add('Form');
         $form->setClass('stacked');
@@ -34,12 +39,27 @@ class View_DynamicBlock extends View_AbstractConstructor {
 
     public function getForFrontend(){
 
+		//var_dump(Config::getInstance($this->app)->isFrontendEditingMode()); echo '<hr>';
+
+
         if ($this->isMarkdownRequired($this->model['type'])) {
             $Parsedown = new \Parsedown();
-            $this->add('View')->setHTML( $Parsedown->text( $this->model->get('content') ) );
+            $this->setHTML( $Parsedown->text( $this->model->get('content') ) );
         } else {
             $this->setHtml(nl2br($this->model->get('content')));
         }
+
+		if (Config::getInstance($this->app)->isFrontendEditingMode()) {
+			$this->js(true)->atk4HomePage()->setEditableMode(
+				$this->name,
+				$this->app->url(null,[
+					'access_code' => Config::getInstance($this->app)->getFrontendEditingCode(),
+					'block_id' => $this->model->id,
+					'cut_object' => $this->name,
+					'edit' => true
+				])
+			);
+		}
 
     }
 

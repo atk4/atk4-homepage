@@ -26,7 +26,7 @@ class Page_Dynamic extends \Page {
         } else {
             $this->model = $this->add('atk4\atk4homepage\Model_Page');
             $this->model->tryLoadBy('hash_url',$this->app->page);
-            if(!$this->model->loaded()) throw $this->exception('There is no such a page','atk4\atk4homepage\NoPage');
+            if(!$this->model->loaded()) throw $this->exception('There is no such a page ['.$this->app->page.']', 'atk4\atk4homepage\NoPage');
         }
 
 

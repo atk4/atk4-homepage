@@ -8,4 +8,4 @@
 
 namespace atk4\atk4homepage;
 
-class Exception_IncorrectValueType extends BaseException {}
+class Exception_IncorrectValueType extends \BaseException {}

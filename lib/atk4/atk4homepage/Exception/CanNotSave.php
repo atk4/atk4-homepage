@@ -8,4 +8,4 @@
 
 namespace atk4\atk4homepage;
 
-class Exception_CanNotSave extends BaseException {}
+class Exception_CanNotSave extends \BaseException {}

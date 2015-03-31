@@ -8,4 +8,4 @@
 
 namespace atk4\atk4homepage;
 
-class Exception_NoHasContent extends BaseException {}
+class Exception_NoHasContent extends \BaseException {}

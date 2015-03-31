@@ -8,7 +8,7 @@
 
 namespace atk4\atk4homepage;
 
-class Exception_InvalidField extends BaseException {
+class Exception_InvalidField extends \BaseException {
     protected $array = [];
     public function setArray($array){
         $this->array = $array;

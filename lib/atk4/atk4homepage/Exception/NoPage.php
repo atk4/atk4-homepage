@@ -8,4 +8,4 @@
 
 namespace atk4\atk4homepage;
 
-class Exception_NoPage extends BaseException {}
+class Exception_NoPage extends \BaseException {}

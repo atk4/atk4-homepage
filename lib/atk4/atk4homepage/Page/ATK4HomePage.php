@@ -32,7 +32,7 @@ class Page_ATK4HomePage extends \Page {
             Model_Page::$show_in_grid
         );
         $this->addConfigureButton($c);
-        $this->addEditOnFrontendButton($c);
+        //$this->addEditOnFrontendButton($c);
 
         $this->js(true)->atk4HomePage()->makeSortable($c->name,"tbody>tr");
 
